@@ -1,0 +1,11 @@
+@model string[]
+    
+<div class="d-grid gap-2">
+    @if(User.IsInRole("Admin"))
+    {
+        <a class="btn @(Model[0] == ViewBag.SelectedController ? "btn-primary":"btn-outline-secondary")" 
+        style="font-size:1.35rem" asp-action="Index" asp-controller="Product">Товары</a>
+    }
+    <a class="btn @(Model[1] == ViewBag.SelectedController ? "btn-primary":"btn-outline-secondary")" 
+    style="font-size:1.35rem" asp-action="Index" asp-controller="CrudOrder">Заказы</a>
+</div>

@@ -1,0 +1,30 @@
+@model NavCartViewModel
+
+
+<div class="row m-1 p-2">
+      <div class="col-sm">
+        <a class="btn btn-outline-secondary" style="font-size:1.2rem;"
+        asp-action="Index" asp-controller="Catalog"><i class="bi bi-list"></i> Каталог товаров</a>
+      </div>
+      <div class="col-sm text-end">
+        @if(User.Identity?.IsAuthenticated == false)
+        {
+            <a class="navbar-brand text-dark" asp-controller="Account" asp-action="Login"><i class="bi bi-person-circle"></i>&nbsp;&nbsp;</a>
+        }
+        else
+        {
+            <a class="navbar-brand text-dark  asp-controller="Account" asp-action="Logout">
+                <span style="font-size:1.4rem;">@User?.Identity?.Name&nbsp;</span>
+                <i class="bi bi-box-arrow-right"></i>&nbsp;&nbsp;</a>
+        }<a class="navbar-brand text-dark" asp-controller="Cart" asp-action="Index"><i class="bi bi-cart4"></i></a><br>
+        
+        @if (Model.NumberOfProducts !=0 )
+         {
+            <span><b>Ваша корзина:&nbsp;</b>Количество: @Model.NumberOfProducts&nbsp;, Сумма: @Model.TotalAmount.ToString("c0", new CultureInfo("ru-RU"))</span>
+         }
+        else
+        {
+            <b>Корзина пуста</b>
+        }
+      </div>
+</div>

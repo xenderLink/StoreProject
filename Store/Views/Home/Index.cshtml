@@ -1,0 +1,9 @@
+
+@model ProductListViewModel
+ 
+@foreach (var p in Model?.Products ?? Enumerable.Empty<ProductListItem>())
+{
+   <partial name="ProductSummary" model="p" />
+}
+
+

@@ -1,0 +1,35 @@
+@{
+    Layout = "~/Views/Shared/Layouts/_AdminLayout.cshtml";
+}
+@model ProductsViewModel
+<table class="table table-responsive table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th>Категория</th>
+            <th>Цена</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model?.Products ?? Enumerable.Empty<Product>())
+        {
+            <tr>
+                <td>@product.productId</td>
+                <td>@product.name</td>
+                <td>@Model?.Categories.Where(k=>k.Key==product.typeId).Select(v=>v.Value).FirstOrDefault()</td>
+                <td>@product.price?.ToString("c0", new CultureInfo("ru-RU"))</td>
+                <td class="text-end"><a class="btn btn-secondary btn-m" asp-controller="Product" asp-action="Edit" asp-route-id="@product.productId"><i class="bi bi-pencil-square"></i> Редактировать</a>
+                <a class="btn btn-danger btn-m" asp-controller="Product" asp-action="Delete" asp-route-id="@product.productId"><i class="bi bi-trash3"></i> Удалить</a></td>
+            </tr>
+        }
+          
+    </tbody>
+</table>
+
+<a class="btn btn-primary" asp-controller="Product" asp-action="Add">Добавить</a><br><br>
+
+<div page-model="@Model?.PagingInfo"  page-classes-enabled="true"
+     page-class="btn" page-class-normal="btn-outline-dark"
+     page-class-selected="btn-primary" class="btn-group pull-right m-1">
+</div>

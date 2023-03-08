@@ -1,0 +1,25 @@
+ @model IEnumerable<ChildCategory>
+
+  <link href="/styles/card.css" rel="stylesheet" />
+
+    <div class="container">
+      <div class="row row-cols-3">
+        @foreach (var c in Model ?? Enumerable.Empty<ChildCategory>())
+          {
+            <a class="col d-flex align-items-stretch text-center text-decoration-none text-dark" asp-action="Products" 
+            asp-route-category="@ViewBag.category.ToString()"  asp-route-subCategory="@c.name">
+              <div class="card  mb-5 d-flex" style="width:18rem;">
+                <h4>
+                  <div class="card-title">
+                    @c.name
+                  </div>
+                </h4>
+                <div class="embed-responsive embed-responsive-16by9">
+                  <img class="img-fluid" class="card-img-bottom embed-responsive-item" src="~/myfiles/@c.Image" alt="no image">
+                </div>
+            </div>
+           </a>
+          }
+      </div>
+    </div>
+ 

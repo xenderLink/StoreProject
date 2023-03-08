@@ -1,0 +1,68 @@
+@model CartViewModel
+
+@if(Model?.Cart?.Lines.Count > 0)
+{    
+    <div class="row m-1 p-2">
+         <div class="col-10">
+            
+    <table class="table table-responsive table-striped">
+         <thead>
+            <tr>
+              <th class="text-center">Колиечество</th>
+              <th>Продукт</th>
+              <th class="text-end">Цена</th>
+              <th class="text-end">Сумма</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var line in Model?.Cart.Lines ?? Enumerable.Empty<CartLine>())
+            {
+                <tr>
+                    <td class="text-center">@line.Quantity</td>
+                    <td class="text-start">@line?.Product?.name</td>
+                    <td class="text-end">@line?.Product?.price?.ToString("c0", new CultureInfo("ru-RU"))</td>
+                    <td class="text-end">@((line?.Quantity*line?.Product?.price)?.ToString("c0", new CultureInfo("ru-RU")))</td>
+                    <td class="text-center">
+                        <a class="btn btn-success btn-sm" asp-action="Add" asp-route-productId="@line?.Product?.productId">+</a>
+                        @if(line?.Quantity>1)
+                        {
+                        <a class="btn btn-secondary btn-sm" asp-action="Decrease" asp-route-productId="@line?.Product?.productId">-</a>
+                        }
+                        else
+                        {
+                          <span class="btn btn-outline-secondary btn-sm">-</span>
+                        }
+                       
+                    </td>
+                    <td class="row no-gutters"><a class="btn btn-danger btn-sm" asp-action="Remove" asp-route-productId="@line?.Product?.productId">Удалить</a></td>    
+                </tr>                                
+            }          
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" class="text-end">Итог:</td>
+            <td class="text-end">@Model?.GrandTotal?.ToString("c0", new CultureInfo("ru-RU"))</td>
+          </tr>
+         
+        </tfoot> 
+    </table>
+    <div class="text-center"><a class="btn btn-primary" asp-controller="Home" asp-action="Index">Продолжить покупки</a>&nbsp;&nbsp;
+      <a class="btn btn-primary" asp-controller="Order" asp-action="Checkout">Оформить заказ</a>
+    </div>
+     </div>
+     <div class="col-2 d-flex justify-content-center align-items-center"> <a class="btn btn-outline-secondary" asp-action="Clear">Очистить корзину</a>
+     </div>
+    </div>
+
+}
+else
+{
+    <h2>
+    <div class="m-4 p-5 text-center">
+            В корзине нет товаров
+        <div class="m-3">
+            <a class="btn btn-outline-secondary" style="font-size:1.2rem;" asp-controller="Home" asp-action="Index">Вернуться к покупкам</a>
+        </div>
+    </div>
+</h2>
+}

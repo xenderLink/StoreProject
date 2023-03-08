@@ -1,0 +1,54 @@
+@if(User.Identity.IsAuthenticated && !(User.IsInRole("Basic")))
+{
+    Layout = "~/Views/Shared/Layouts/_AdminLayout.cshtml";
+}
+
+@model LoginViewModel
+
+@if( !User.Identity.IsAuthenticated )
+{
+    <div class="p-4 col-4 mx-auto">
+        <form asp-action="Login">
+            <input type="hidden" asp-for="ReturnUrl" />
+            <div class="form-group" style="font-size:1.275rem;" >
+                <div class="mb-3">
+                    <label asp-for="Login"></label>
+                    <input asp-for="Login" class="form-control" placeholder="Имя пользователя/Почта" />
+                    <span asp-validation-for="Login" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" class="form-control" placeholder="Пароль" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                    @if(Model.checkAuthentication == false)
+                    {
+                        <span class="text-danger">Неверные логин и/или пароль</span>
+                        Model.checkAuthentication = true;
+                    }
+                </div>
+                <div class="d-flex justify-content-center">
+                    <input class="m-2 btn btn-primary btn-lg" type="submit" value="Войти" />
+                </div>
+                 <div class="d-flex justify-content-center p-2">
+                    <a class="text-center" asp-controller="Account"
+                    asp-action="UserRegistration">Регистрация</a>
+                </div>
+            </div>
+        </form>
+    </div>
+}
+
+else
+{
+    <div class="p-3 col-5 mx-auto">
+        <form asp-action="Logout">
+            <div class="d-flex justify-content-center mb-2" style="font-size:1.6rem;">
+               <span>Вы уже зашли под пользователем&nbsp;<span>@User.Identity.Name</span>.</span> 
+            </div>
+            <div class="d-flex justify-content-center mb-4" style="font-size:1.6rem;">Хотите выйти?</div>
+            <div class="d-flex justify-content-center">
+                <input class="btn btn-primary btn-lg" type="submit" value="Выйти" />
+            </div>
+        </form>
+    </div>
+}

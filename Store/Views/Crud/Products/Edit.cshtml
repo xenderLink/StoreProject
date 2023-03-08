@@ -1,0 +1,39 @@
+@{
+    Layout = "~/Views/Shared/Layouts/_AdminLayout.cshtml";
+}
+
+@model Product
+
+<form asp-action="Edit" method="post" asp-route-id="@Model.productId">
+     <div class="form-group">
+        <div class="mb-3">
+            <label asp-for="name"></label>
+            <input asp-for="name" class="form-control" />
+             <span asp-validation-for="name" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="price"></label>
+            <input asp-for="price" class="form-control" />
+            <span asp-validation-for="price" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="typeId"></label><br>
+            <select asp-for="typeId" asp-items="ViewBag.Categories"></select>
+            <span asp-validation-for="typeId" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="productDescription"></label>
+            <input asp-for="productDescription" class="form-control" />
+            <span asp-validation-for="productDescription" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="sku"></label>
+            <input asp-for="sku" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label asp-for="quantity"></label>
+            <input asp-for="quantity" class="form-control" />
+        </div>
+        <input class="btn btn-primary" type="submit" value="Редактировать" />
+    </div>         
+</form>

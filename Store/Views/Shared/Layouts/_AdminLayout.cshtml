@@ -1,0 +1,39 @@
+<!DOCTYPE html>  
+  <html>
+  <head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Административная панель</title>
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+  </head>
+   <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-info p-2">
+        <div class="container-fluid">
+          @if(User.IsInRole("Admin"))
+          {
+            <a class="navbar-brand ml-2" asp-controller="Product" asp-action="Index">Административная панель</a>
+          }
+          else
+          {
+            <a class="navbar-brand ml-2" asp-controller="CrudOrder" asp-action="Index">Административная панель</a>
+          }
+        </div>
+         <a class="navbar-brand" asp-controller="Account" asp-action="Logout">
+         <span style="font-size:1.4rem;">@User?.Identity?.Name&nbsp;
+          <i class="bi bi-box-arrow-right"></i>
+         </span></a>
+     </nav>
+     <div class="container-fluid">
+       <div class="row m-1 p-1">
+        <div class="col-2 m-4">
+        <vc:admin-navigation />
+        </div>
+        <div class="m-2 col">
+            @RenderBody()
+        </div>
+      </div>
+     </div>
+</body>
+  </html>
+
+ 

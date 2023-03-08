@@ -1,0 +1,10 @@
+@{
+    Layout = "~/Views/Shared/Layouts/_AdminLayout.cshtml";
+}
+@model Product
+
+<div style="font-size:1.25rem;">@Model.name</div><br>
+<h3>Вы уверены, что хотите удалить данный товар?</h3><br>
+<form asp-action="Delete" method="post" asp-route-id="@Model.productId">
+    <input class="btn btn-primary" type="submit" value="Удалить" />
+</form>

@@ -1,0 +1,13 @@
+@if (User?.Identity?.IsAuthenticated==true && !(User.IsInRole("Basic")))
+{
+    Layout = "~/Views/Shared/Layouts/_AdminLayout.cshtml";
+}
+<h1>
+    <div class="m-4 p-5 text-center">
+        <img src="~/myfiles/not_found.jpg" alt="notfound" width="50px"/>&nbsp;
+            К сожалению, указанная страница не найдена.
+        <div class="m-3">
+            <a class="btn btn-outline-secondary" style="font-size:1.2rem;" asp-controller="Home" asp-action="Index">Вернуться к покупкам</a>
+        </div>
+    </div>
+</h1>

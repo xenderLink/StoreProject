@@ -1,0 +1,57 @@
+@{
+    Layout = "~/Views/Shared/Layouts/_AdminLayout.cshtml";
+}
+
+@model IEnumerable<Order>
+
+<table class="table table-responsive table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Номер заказа</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Номер заказчика</th>
+            <th>Товары</th>
+            <th class="text-end">Количество</th>
+            <th class="text-center">Статус отправки</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var order in Model ?? Enumerable.Empty<Order>())
+        {
+            <tr>
+                <td>HW#@order.OrderId</td>
+                <td>@order.name</td>
+                <td>@order.surname</td>
+                <td>@order.number</td>
+                <td>
+                    @foreach (var item in order?.Cart ?? Enumerable.Empty<CartLine>())
+                    {
+                        @item?.Product?.name<br>  
+                    }
+                   
+                </td>
+                <td class="text-end">
+                    @foreach (var item in order?.Cart ?? Enumerable.Empty<CartLine>())
+                    {
+                        @item.Quantity<br>  
+                    }
+                </td>
+                <td class="align-middle text-center">
+                    @if(order?.Shipped==false)
+                    {
+                        <span class="btn btn-danger btn-m">Не отправлен</span><br><br>
+                        <a class="btn btn-secondary btn-m" asp-action="ChangeStatus" asp-route-id="@order.OrderId">Отправить</a>
+                      
+                    }
+                    else
+                    {
+                        <span class="btn btn-success btn-m">Отправлен</span>
+                    
+                    } 
+                </td>
+             </tr>
+         }
+    </tbody>
+</table>

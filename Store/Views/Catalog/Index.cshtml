@@ -1,0 +1,25 @@
+@model CatalogViewModel
+    
+<div class="container">
+  <div class="row row-cols-3 g-3">
+    @foreach (var category in Model?.Categories ?? Enumerable.Empty<Category>())
+    {
+      <div class="row">
+        <div class="col-md-2">
+           <img src="~/myfiles/@category.Icon" class="img-fluid rounded-start" alt="no image">
+          </div>
+      <div class="col">
+        <a class="d-flex align-items-end h3 g-4 text-decoration-none text-dark" asp-action="Categories"
+        asp-route-category="@category.name">@category.name</a>
+        @foreach(var subCategory in 
+        Model?.subCategories.Where(x=>x.categoryId==category.categoryId)
+         ?? Enumerable.Empty<ChildCategory>() )
+        {
+          <a class="d-flex align-items-end h5 text-decoration-none text-dark" asp-action="Products"
+          asp-route-category="@category.name" asp-route-subCategory="@subCategory.name">@subCategory.name</a>
+        }
+        </div>
+      </div>
+    }
+  </div>
+</div>

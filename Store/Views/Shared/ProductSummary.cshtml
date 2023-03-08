@@ -1,0 +1,41 @@
+@model ProductListItem
+
+@if(Model?.Path!=null)
+{
+   <div class="card mb-3">
+      <div class="row g-0">
+         <div class="col-md-2">
+            <img src="~/myfiles/@Model.Path" class="img-fluid rounded-start" alt="no image">
+         </div>
+         <div class="col">
+            <div class="card-body">
+               <h4 class="card-title">@Model?.Name
+                  <span class="badge rounded-pill bg-primary text-white" style="float:right" >
+                     @Model?.Price?.ToString("c0", new CultureInfo("ru-RU"))
+                  </span>
+               </h4>
+                  <p class="card-text text-muted">@Model?.Description</p>
+               <div class="d-flex justify-content-end align-items-center">
+                  @await Component.InvokeAsync("AddToCart", new {id = Model?.productId})
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+}
+else
+{
+   <div class="card mb-3">
+      <div class="card-body">
+         <h4 class="card-title">@Model?.Name
+            <span class="badge rounded-pill bg-primary text-white" style="float:right">
+               @Model?.Price?.ToString("c0", new CultureInfo("ru-RU"))
+            </span>
+         </h4>
+         <p class="card-text text-muted">@Model?.Description</p>
+         <div class="d-flex justify-content-end align-items-center">
+            @await Component.InvokeAsync("AddToCart", new {id = Model?.productId})
+         </div>
+      </div>
+   </div>    
+}

@@ -1,0 +1,17 @@
+@model Order
+@{
+    string order = "HW#" + Model.OrderId.ToString();
+}
+<div class="text-center">
+    @if(User?.Identity?.IsAuthenticated==true && User.IsInRole("Basic"))
+    {
+        <h2>Спасибо за покупку, @User.Identity.Name!</h2>
+    }
+    else
+    {
+        <h2>Спасибо за покупку!</h2>
+    }
+   
+    <h3>Ваш аказ @order будет отправлен в ближайшее время.</h3><br><br>
+    <a class="btn btn-primary" asp-controller="Home" asp-action="Index">Вернуться в магазин</a>
+</div>

@@ -1,0 +1,55 @@
+version: '3'
+
+networks:
+  net:
+    driver: bridge
+
+services:
+  store:
+    image: docker.io/library/store-image
+    working_dir: /StoreProject/Store
+    depends_on:
+      - "db"
+      - "identity_db"
+    container_name: store-container
+    ports:
+      - "5000:5000"
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    environment: 
+      - ConnectionStrings__myStore=User ID=postgres;Password=postgres;Host=db;Database=myaspdb;Port=5432;
+      - ConnectionStrings__identityUser=User ID=postgres;Password=postgres;Host=identity_db;Database=myidentity;Port=5432;
+    networks:
+      - net
+  db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=myaspdb
+    ports:
+      - 5433:5432
+    restart: always
+    volumes:
+      - app_data:/var/lib/postgres/data 
+    networks:
+      - net 
+      
+  identity_db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=myidentity
+    ports:
+      - 5434:5432
+    restart: always
+    volumes:
+      - identity_data:/var/lib/postgres/identity
+    networks:
+      - net 
+
+volumes:
+  app_data:
+  identity_data: 

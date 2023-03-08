@@ -1,0 +1,24 @@
+@model ProductListViewModel
+
+@if(Model!=null)
+{
+   @foreach (var p in Model?.Products ?? Enumerable.Empty<ProductListItem>())
+      {        
+         <partial name="ProductSummary" model="p" />
+      }
+      <div page-model="@Model?.PagingInfo"  page-classes-enabled="true"
+      page-class="btn" page-class-normal="btn-outline-dark"
+      page-class-selected="btn-primary" class="btn-group pull-right m-1">
+      </div>
+}
+else
+{
+  <h2>
+    <div class="m-4 p-5 text-center">
+            К сожалению, в этой категории пока нет товаров.
+        <div class="m-3">
+            <a class="btn btn-outline-secondary" style="font-size:1.2rem;" asp-controller="Home" asp-action="Index">Вернуться к покупкам</a>
+        </div>
+    </div>
+</h2>
+}

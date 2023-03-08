@@ -1,0 +1,16 @@
+@model IEnumerable<string>
+
+@if( ViewBag.SelectedController.ToString()!="Cart"
+&& ViewBag.SelectedController.ToString()!="Account"
+&& ViewBag.Error!="Error")
+{
+   <div id="categories" class="col-2">
+      <div class="d-grid gap-2">
+         @foreach (string category in Model ?? Enumerable.Empty<string>())
+         {
+            <a class="btn @(category == ViewBag.category ? "btn-primary":"btn-outline-secondary")"
+            asp-action="Categories" asp-controller="Catalog" asp-route-category="@category">@category</a>
+         }
+      </div>
+   </div>
+}
