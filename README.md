@@ -1,4 +1,5 @@
 В папке с проектом введите команду:
+
 docker build . -t store-image
 После того, как образ будет готов:
 docker compose up -d
