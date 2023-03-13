@@ -22,6 +22,10 @@ docker compose start
 ```
 docker compose down
 ```
+В браузере запустить 
+```
+http://localhost:5000
+```
 
 Пользователи для входа:
 - Логин: Admin, Пароль: MyAdmin174# - имеет полный доступ к адмнистративной панели
