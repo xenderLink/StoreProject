@@ -59,25 +59,28 @@ public class StoreDbContext : IdentityDbContext<StoreUser>
                     .WithMany(pi=>pi.ProductImages)
                     .HasForeignKey(k=> new {k.imageId});
 
-        base.OnModelCreating(modelBuilder);
-
         modelBuilder.Entity<Order>()
-                    .HasOne(u=>u.user)
+                    .HasOne(u=>u.User)
                     .WithMany(o=>o.Orders)
                     .HasForeignKey(k=> new {k.userId});
+
+        base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity <StoreUser> (entity=> 
         {
             entity.ToTable("users");
         });
+
         modelBuilder.Entity <IdentityUserRole <string>> (entity=>
         {
             entity.ToTable("user_roles");
         });
+
         modelBuilder.Entity <IdentityUserClaim <string>> (entity=>
         {
             entity.ToTable("user_claims");
         });
+
         modelBuilder.Entity <IdentityUserLogin <string>> (entity=>
         {
             entity.ToTable("user_logins");
@@ -90,6 +93,7 @@ public class StoreDbContext : IdentityDbContext<StoreUser>
         {
             entity.ToTable("roles");
         });
+        
         modelBuilder.Entity <IdentityRoleClaim <string>> (entity=>
         {
             entity.ToTable("role_claims");
