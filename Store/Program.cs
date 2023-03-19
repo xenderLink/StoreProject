@@ -18,15 +18,10 @@ public class Program
 
         builder.Services.AddDbContext<StoreDbContext>(options=>
            options.UseNpgsql(
-           builder.Configuration.GetConnectionString("myStore") 
-           ));
-        builder.Services.AddDbContext<StoreIdentityDbContext>(options=>
-           options.UseNpgsql(
-           builder.Configuration.GetConnectionString("identityUser")
-           ));
+           builder.Configuration.GetConnectionString("Store")) );
 
-        builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-                        .AddEntityFrameworkStores<StoreIdentityDbContext>();
+        builder.Services.AddIdentity<StoreUser, IdentityRole>()
+                        .AddEntityFrameworkStores<StoreDbContext>();
 
         builder.Services.AddScoped<IProductsRepository, EFProductsRepository>();                
         builder.Services.AddScoped<ICategoriesRepository, EFCategoriesRepository>();
@@ -50,7 +45,6 @@ public class Program
             options.AccessDeniedPath = "/Login";
             options.SlidingExpiration = true;
             options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
-          
         });
 
         var app = builder.Build();  
@@ -90,16 +84,15 @@ public class Program
          "Home/",
           new {Controller = "Home", action = "Index"});
 
-       
         app.MapDefaultControllerRoute();
 
         app.MapControllers();
         app.Run();
-
     }
+
     public static async Task EnsurePopulated(IApplicationBuilder app)
     {
-       await SeedData.SeedDataAsync(app);
        await IdentitySeedData.SeedIdentityDataAsync(app);
+       await SeedData.SeedDataAsync(app);
     }
 }

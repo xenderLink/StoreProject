@@ -1,23 +1,18 @@
-using System.Data.Common;
 using Microsoft.EntityFrameworkCore;
 using Store.Models;
 
 namespace Store.Data;
+
 public static class SeedData
 {
-    public static async Task SeedDataAsync (IApplicationBuilder app)
+    public static async Task SeedDataAsync(IApplicationBuilder app)
     {
         StoreDbContext context = app.ApplicationServices
                                     .CreateScope()
                                     .ServiceProvider
                                     .GetRequiredService<StoreDbContext>();
-        
-        if ( context.Database.GetPendingMigrations().Any() ) 
-                 context.Database.Migrate();
 
-        else return;
-
-        if (!context.categories.Any())
+        if(!context.categories.Any())
         {
             try
             {
@@ -35,24 +30,24 @@ public static class SeedData
             }
         }
 
-        if (!context.childs.Any())
+        if (!context.subcategories.Any())
         {
             try
             {
                 await context.AddRangeAsync
                 (
                     //комплектующие  
-                    new ChildCategory () {typeId = 1, categoryId = 1, name = "Процессоры", Image = "catalog/cpu.webp"},
-                    new ChildCategory () {typeId = 2, categoryId = 1, name = "Видеокарты", Image = "catalog/gpu.webp"},
-                    new ChildCategory () {typeId = 3, categoryId = 1, name = "Память", Image = "catalog/ram.webp"},
-                    new ChildCategory () {typeId = 4, categoryId = 1, name = "Материнские платы", Image = "catalog/motherboard.webp"},
+                    new SubCategory () {typeId = 1, categoryId = 1, name = "Процессоры", Image = "catalog/cpu.webp"},
+                    new SubCategory () {typeId = 2, categoryId = 1, name = "Видеокарты", Image = "catalog/gpu.webp"},
+                    new SubCategory () {typeId = 3, categoryId = 1, name = "Память", Image = "catalog/ram.webp"},
+                    new SubCategory () {typeId = 4, categoryId = 1, name = "Материнские платы", Image = "catalog/motherboard.webp"},
                     //периферия
-                    new ChildCategory () {typeId = 5, categoryId = 2, name = "Мониторы", Image = "catalog/monitor.webp"},
-                    new ChildCategory () {typeId = 6, categoryId = 2, name = "Мыши", Image = "catalog/mouse.webp"},
-                    new ChildCategory () {typeId = 7, categoryId = 2, name = "Клавиатуры", Image = "catalog/keyboard.webp"},
+                    new SubCategory () {typeId = 5, categoryId = 2, name = "Мониторы", Image = "catalog/monitor.webp"},
+                    new SubCategory () {typeId = 6, categoryId = 2, name = "Мыши", Image = "catalog/mouse.webp"},
+                    new SubCategory () {typeId = 7, categoryId = 2, name = "Клавиатуры", Image = "catalog/keyboard.webp"},
                     //Сетвое оборудование
-                    new ChildCategory () {typeId = 8, categoryId = 3, name = "Маршрутизаторы и коммутаторы", Image = "catalog/switch.webp" },
-                    new ChildCategory () {typeId = 9, categoryId = 3, name = "Сетевые хранилища (NAS)", Image = "catalog/nas.webp"}
+                    new SubCategory () {typeId = 8, categoryId = 3, name = "Маршрутизаторы и коммутаторы", Image = "catalog/switch.webp" },
+                    new SubCategory () {typeId = 9, categoryId = 3, name = "Сетевые хранилища (NAS)", Image = "catalog/nas.webp"}
                 );
 
                 await context.SaveChangesAsync();

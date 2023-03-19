@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Store.Models;
 
 namespace Store.Data;
 public enum Role
@@ -19,15 +20,15 @@ public static class IdentitySeedData
 
     public static async Task SeedIdentityDataAsync(IApplicationBuilder app)
     {
-        StoreIdentityDbContext context = app.ApplicationServices
-                                            .CreateScope()
-                                            .ServiceProvider
-                                            .GetRequiredService<StoreIdentityDbContext>();
+        StoreDbContext context = app.ApplicationServices
+                                    .CreateScope()
+                                    .ServiceProvider
+                                    .GetRequiredService<StoreDbContext>();
         
-        UserManager<IdentityUser> userManager = app.ApplicationServices
-                                                   .CreateScope()
-                                                   .ServiceProvider
-                                                   .GetRequiredService<UserManager<IdentityUser>>();
+        UserManager<StoreUser> userManager = app.ApplicationServices
+                                                .CreateScope()
+                                                .ServiceProvider
+                                                .GetRequiredService<UserManager<StoreUser>>();
 
         RoleManager<IdentityRole> roleManager = app.ApplicationServices
                                                    .CreateScope()
@@ -35,57 +36,52 @@ public static class IdentitySeedData
                                                    .GetRequiredService<RoleManager<IdentityRole>>();
 
         
-        if ( context.Database.GetPendingMigrations().Any() ) 
-                     context.Database.Migrate();
-        
-        else return;
+        if(context.Database.GetPendingMigrations().Any()) 
+                   context.Database.Migrate();
      
         foreach (Role role in (Role[]) Enum.GetValues( typeof(Role) ))
         {
-            if ( !await roleManager.RoleExistsAsync(role.ToString() ))
-                        await roleManager.CreateAsync 
-                        ( new IdentityRole ( role.ToString() ));
+            if(!await roleManager.RoleExistsAsync(role.ToString()))
+                   await roleManager.CreateAsync(new IdentityRole (role.ToString()) );
         }
 
         var admin =  await userManager.FindByNameAsync(Admin);
 
-        if ( admin == null )
+        if(admin == null)
         {
-            admin = new IdentityUser(Admin);
+            admin = new StoreUser(Admin);
             admin.Email = "admin@mail.com";
 
             var result = await userManager.CreateAsync(admin, adminPassword);
             
-            if ( result.Succeeded )
-            {
-                await userManager.AddToRoleAsync(admin, Role.Admin.ToString() );
-            }
+            if(result.Succeeded)
+               await userManager.AddToRoleAsync(admin, Role.Admin.ToString() );
         }
 
         var moderator = await userManager.FindByNameAsync(Moderator);
 
-        if ( moderator == null )
+        if(moderator == null)
         {
-            moderator = new IdentityUser(Moderator);
+            moderator = new StoreUser(Moderator);
             moderator.Email = "moderator@mail.com";
 
             var result = await userManager.CreateAsync(moderator, moderatorPassword);
             
             if (result.Succeeded)
-            await userManager.AddToRoleAsync(moderator, Role.Moderator.ToString() );
+                await userManager.AddToRoleAsync(moderator, Role.Moderator.ToString() );
         }
 
         var user = await userManager.FindByNameAsync(BasicUser);
 
         if (user == null)
         {
-            user = new IdentityUser(BasicUser);
+            user = new StoreUser(BasicUser);
             user.Email = "basicuser@mail.com";
 
             var result = await userManager.CreateAsync(user, basicUserPassword);
             
-            if (result.Succeeded)
-            await userManager.AddToRoleAsync(user, Role.Basic.ToString());
+            if(result.Succeeded)
+               await userManager.AddToRoleAsync(user, Role.Basic.ToString() );
         }   
     }
 }
