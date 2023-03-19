@@ -3,14 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Store.Models;
 
-
-
 [Authorize(Roles = "Admin,Moderator")]
 public class CrudOrder : Controller
 {
     private IOrderRepository repository;
-    public CrudOrder(IOrderRepository rep) =>
-    repository = rep;
+    
+    public CrudOrder(IOrderRepository rep) => repository = rep;
 
     [Route("/admin/orders")]
     public async Task <IActionResult> Index ()
@@ -26,5 +24,4 @@ public class CrudOrder : Controller
 
         return Redirect (Request.Headers["Referer"].ToString());
     }
-
 }
