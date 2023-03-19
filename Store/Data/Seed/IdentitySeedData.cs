@@ -9,6 +9,7 @@ public enum Role
     Moderator,
     Basic
 }
+
 public static class IdentitySeedData
 {
     private const string Admin = "Admin";
