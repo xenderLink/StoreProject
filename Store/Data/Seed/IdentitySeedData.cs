@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Store.Models;
 
 namespace Store.Data;
+
 public enum Role
 {
     Admin,
