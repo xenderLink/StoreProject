@@ -63,10 +63,10 @@ public class AccountController : Controller
                        return Redirect("/Home"); 
                 }
                 else 
-                  ModelState.AddModelError("Password", "Неверные Логин/Пароль");
+                   ModelState.AddModelError("Password", "Неверные Логин/Пароль");
             }
             else 
-              ModelState.AddModelError("Password", "Неверные Логин/Пароль");
+               ModelState.AddModelError("Password", "Неверные Логин/Пароль");
         }
 
         return View("~/Views/Account/Login.cshtml", loginVM);
@@ -90,7 +90,7 @@ public class AccountController : Controller
     [ValidateAntiForgeryToken]
     public async Task <IActionResult> UserRegistration(RegistrationViewModel regVM)
     {
-        if (regVM.Name !=null && regVM.Password !=null)
+        if(regVM.Name !=null && regVM.Password !=null)
         {
             StoreUser? user = await userManager.FindByNameAsync(regVM?.Name);
 
