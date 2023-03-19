@@ -30,7 +30,6 @@ public class ProductController : Controller
             categoriesForIndex.Add(item.typeId, item?.name);                                                   // id категории и её 
             categoriesForDropDown.Add( new SelectListItem{Value = item.typeId.ToString(), Text = item.name}); // имя для отображения на страничках
         }
-
     }
 
     public async Task <IActionResult> Index (int productPage = 1)
@@ -114,14 +113,14 @@ public class ProductController : Controller
 
         ViewBag.Categories = categoriesForDropDown;   
 
-        if (productData.productDescription == null)
+        if(productData.productDescription == null)
         {
             product.productDescription = null;
         }
         else
         {
-            if (productData.productDescription.isJson() != true)
-            ModelState.AddModelError("productDescription", "Неверный формат JSON");
+            if(productData.productDescription.isJson() != true)
+               ModelState.AddModelError("productDescription", "Неверный формат JSON");
         }
 
         if(ModelState.IsValid)
@@ -133,7 +132,6 @@ public class ProductController : Controller
             product.quantity = productData.quantity;
 
             await repository.UpdateProductAsync(product);
-            return Redirect (Request.Headers["Referer"].ToString());
         }
 
         return View("~/Views/Crud/Products/Edit.cshtml", product); 
@@ -142,7 +140,7 @@ public class ProductController : Controller
     [HttpGet("/admin/products/delete/{id}")]
     public IActionResult Delete(long? id)
     {
-        if(id==null || id==0)
+        if(id == null || id == 0)
            return NotFound();
 
         var product = repository.Products.FirstOrDefault(p=>p.productId==id);
