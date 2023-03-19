@@ -27,7 +27,7 @@ public class CatalogController : Controller
         return View (new CatalogViewModel()
         {
             Categories = categoriesRepository.Categories,
-            subCategories = await categoriesRepository.Childs.ToListAsync()       
+            subCategories = await categoriesRepository.SubCategories.ToListAsync()       
         });
     }
     
@@ -39,7 +39,7 @@ public class CatalogController : Controller
         
         ViewBag.category = category;
 
-        return View ( await categoriesRepository.Childs
+        return View ( await categoriesRepository.SubCategories
                       .Join ( categoriesRepository
                       .Categories, childs=>childs.categoryId,
                        category=>category.categoryId,
@@ -63,42 +63,38 @@ public class CatalogController : Controller
         return Redirect("/Catalog");
 
         var urlSubCategory = await categoriesRepository
-                                   .Childs
+                                   .SubCategories
                                    .FirstOrDefaultAsync(n=>n.name==subCategory);
 
-        if (urlSubCategory == null)
-        return RedirectToAction(nameof(Categories), new {category = category});
+        if(urlSubCategory == null)
+           return RedirectToAction(nameof(Categories), new {category = category});
         
         var categorizedProducts = await (from products in productsRepository.Products 
-                                         join childs in categoriesRepository.Childs
+                                         join childs in categoriesRepository.SubCategories
                                          on products.typeId equals childs.typeId
                                          where (childs.name == subCategory)
                                          select products)  
                                         .ToListAsync();
 
-        if (categorizedProducts.Count == 0)
-        return View();
+        if(categorizedProducts.Count == 0)
+           return View();
         
         List<ProductListItem> productListItems = new();
         string description;
 
-        foreach 
-        (var product in categorizedProducts
-                        .Skip( (productPage-1) * PageSize)
-                        .Take(PageSize)
-        )
+        foreach(var product in categorizedProducts.Skip((productPage-1) * PageSize).Take(PageSize) )
         {
-            var query = imageRepository.productImages
+            var query = imageRepository.ProductImages
                         .Where(x=>x.productId==product.productId);
             
             description = "";
 
             if(product.productDescription!=null)
-            description = Regex.Replace ( JsonSerializer
-                                          .Deserialize<dynamic>(product.productDescription)
-                                          .ToString(),  @"[^\w \- :,.]", "" );    //запрещены все символы, кроме двоеточия и запятой.     
+               description = Regex.Replace ( JsonSerializer
+                                             .Deserialize<dynamic>(product.productDescription)
+                                             .ToString(),  @"[^\w \- :,.]", "" ); //запрещены все символы, кроме двоеточия, запятой, точки и запятой.     
 
-            if(query!=null)
+            if(query != null)
             {
                 var p = new ProductListItem()
                         {
@@ -116,7 +112,6 @@ public class CatalogController : Controller
 
                 productListItems.Add (p);
             }
-
             else
             {
                 productListItems.Add ( new ProductListItem()
@@ -130,7 +125,7 @@ public class CatalogController : Controller
         }
 
         return View 
-        (  new ProductListViewModel
+        ( new ProductListViewModel
            {
              Products = productListItems,
              PagingInfo = new PagingInfo
@@ -139,7 +134,6 @@ public class CatalogController : Controller
                 ProductsPerPage = PageSize,
                 TotalProducts = categorizedProducts.Count
              }
-           }
-        );
+           });
     }
 }

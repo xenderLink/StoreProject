@@ -48,26 +48,24 @@ public class AccountController : Controller
                 
                 var result = await signInManager.PasswordSignInAsync(user, loginVM?.Password, false, false);
                 
-                if( result.Succeeded )
+                if(result.Succeeded)
                 {
                     var roles = await userManager.GetRolesAsync(user);
                     
-                    if (roles.Contains( Role.Admin.ToString() ) )
-                    return Redirect("/admin");
+                    if(roles.Contains( Role.Admin.ToString()) )
+                       return Redirect("/admin");
                     
-                    else if(roles.Contains( Role.Moderator.ToString() ) )
-                    return Redirect("/admin/orders");
+                    else if(roles.Contains( Role.Moderator.ToString()) )
+                       return Redirect("/admin/orders");
                     
                     else
-                    return Redirect("/Home"); 
+                       return Redirect("/Home"); 
                 }
-
                 else 
-                loginVM.checkAuthentication = false;
+                  ModelState.AddModelError("Password", "Неверные Логин/Пароль");
             }
-            
             else 
-            loginVM.checkAuthentication = false;
+              ModelState.AddModelError("Password", "Неверные Логин/Пароль");
         }
 
         return View("~/Views/Account/Login.cshtml", loginVM);
@@ -93,16 +91,16 @@ public class AccountController : Controller
     {
         IdentityUser? user = await userManager.FindByNameAsync(regVM?.Name);
 
-        if (user != null)
-        ModelState.AddModelError("Name", "Пользователем с таким именем занят");
+        if(user != null)
+           ModelState.AddModelError("Name", "Пользователем с таким именем занят");
 
         user = await userManager.FindByEmailAsync(regVM?.Email);
 
-        if (user != null)
-        ModelState.AddModelError("Email", "Данная электронная почта занята");
+        if(user != null)
+           ModelState.AddModelError("Email", "Данная электронная почта занята");
         
-        if ( regVM.Password != regVM.passwordConfirm )
-        ModelState.AddModelError("passwordConfirm", "Пароли не совпадают");
+        if(regVM.Password != regVM.passwordConfirm )
+           ModelState.AddModelError("passwordConfirm", "Пароли не совпадают");
             
         if(ModelState.IsValid)
         {
@@ -118,12 +116,11 @@ public class AccountController : Controller
                var resultSignIn =  await signInManager.PasswordSignInAsync(user, regVM.Password, false, false);
 
                if(resultSignIn.Succeeded)
-               return Redirect ("/Home");
+                  return Redirect ("/Home");
             }
-
             else
-            ModelState.AddModelError
-            ("Password", "Пароль должен содержать заглваные буквы и специальные символы (#, *, ~ и т.д.)") ;
+               ModelState.AddModelError
+               ("Password", "Пароль должен содержать заглваные буквы и специальные символы (#, *, ~ и т.д.)") ;
         }
 
         return View("~/Views/Account/Registr.cshtml", regVM);
