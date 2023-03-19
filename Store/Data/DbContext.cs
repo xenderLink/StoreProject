@@ -93,12 +93,10 @@ public class StoreDbContext : IdentityDbContext<StoreUser>
         {
             entity.ToTable("roles");
         });
-        
+
         modelBuilder.Entity <IdentityRoleClaim <string>> (entity=>
         {
             entity.ToTable("role_claims");
         });
     }
 }
-
-
