@@ -39,9 +39,9 @@ public class Product
     [Display(Name = "Описание")]
     public string? productDescription {get;set;}
 
-    public virtual ICollection <productImage>? ProductImages {get;set;}
+    public virtual ICollection <ProductImage>? ProductImages {get;set;}
 
     public virtual ICollection <CartLine>? Lines {get;set;}
-    public virtual ChildCategory? type {get;set;} 
+    public virtual SubCategory? Type {get;set;} 
     
 }

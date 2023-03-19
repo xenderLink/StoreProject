@@ -1,13 +1,13 @@
- @model IEnumerable<ChildCategory>
+ @model IEnumerable<SubCategory>
 
   <link href="/styles/card.css" rel="stylesheet" />
 
     <div class="container">
       <div class="row row-cols-3">
-        @foreach (var c in Model ?? Enumerable.Empty<ChildCategory>())
+        @foreach (var c in Model ?? Enumerable.Empty<SubCategory>())
           {
             <a class="col d-flex align-items-stretch text-center text-decoration-none text-dark" asp-action="Products" 
-            asp-route-category="@ViewBag.category.ToString()"  asp-route-subCategory="@c.name">
+            asp-route-category="@ViewBag.category.ToString()" asp-route-subCategory="@c.name">
               <div class="card  mb-5 d-flex" style="width:18rem;">
                 <h4>
                   <div class="card-title">

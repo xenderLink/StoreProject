@@ -16,10 +16,10 @@ public class Category
     [Column("icon")]
     public string? Icon {get;set;} 
 
-    public virtual ICollection<ChildCategory>? childs {get;set;} //связь один ко многим (одна категория к множеству подгатегорий)
+    public virtual ICollection<SubCategory>? SubCategories {get;set;} //связь один ко многим (одна категория к множеству подгатегорий)
 }
 
-public class ChildCategory
+public class SubCategory
 {
     [Key]
     [Column("id")]
@@ -35,7 +35,6 @@ public class ChildCategory
     [Column("image")]
     public string? Image {get;set;}
 
-    public Category? category {get;set;} //для связи многие ко одному (множество подкатегорий к одной категории)
-
-    public virtual ICollection<Product>? products {get;set;} //для связи один ко многим (одна подкатегория к множеству продуктов)
+    public Category Category {get;set;} //для связи многие ко одному (множество подкатегорий к одной категории)
+    public virtual ICollection<Product> Products {get;set;} //для связи один ко многим (одна подкатегория к множеству продуктов)
 }

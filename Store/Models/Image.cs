@@ -14,13 +14,13 @@ public class Image
 
     [Column("path")]
     public string? Path {get;set;}
-    public virtual ICollection <productImage>? ProductImages {get;set;}
+    public virtual ICollection <ProductImage>? ProductImages {get;set;}
 
 }
 
 [Table("product_images")]
 
-public class productImage
+public class ProductImage
 {
     [Column("product_id")]
     public long productId {get;set;}

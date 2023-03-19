@@ -9,6 +9,10 @@ public class Order
     [Column("id")]
     [DatabaseGenerated (DatabaseGeneratedOption.Identity)]
     public long OrderId {get;set;}
+
+    [Column("user_id")]
+    public string userId {get;set;}
+    public StoreUser? User {get;set;}
     
     [BindNever]
     public ICollection<CartLine>? Cart {get;set;}

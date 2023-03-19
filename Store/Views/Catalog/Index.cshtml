@@ -11,9 +11,8 @@
       <div class="col">
         <a class="d-flex align-items-end h3 g-4 text-decoration-none text-dark" asp-action="Categories"
         asp-route-category="@category.name">@category.name</a>
-        @foreach(var subCategory in 
-        Model?.subCategories.Where(x=>x.categoryId==category.categoryId)
-         ?? Enumerable.Empty<ChildCategory>() )
+        @foreach(var subCategory in Model?.SubCategories.Where(x=>x.categoryId==category.categoryId)
+         ?? Enumerable.Empty<SubCategory>() )
         {
           <a class="d-flex align-items-end h5 text-decoration-none text-dark" asp-action="Products"
           asp-route-category="@category.name" asp-route-subCategory="@subCategory.name">@subCategory.name</a>

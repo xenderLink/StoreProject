@@ -13,6 +13,6 @@ public class EFCategoriesRepository : ICategoriesRepository
     }
 
     public IEnumerable<Category> Categories => context.categories;
-    public IQueryable <ChildCategory> Childs => context.childs;
+    public IQueryable <SubCategory> SubCategories => context.subcategories;
 
 }
