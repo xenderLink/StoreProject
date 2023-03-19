@@ -26,7 +26,7 @@ public class AccountController : Controller
     public IActionResult Login()
     {
         if(Request.GetDisplayUrl().ToString().Contains('?') )
-           return Redirect("/Error?statusCode=404");
+           return NotFound();
 
         return View ("~/Views/Account/Login.cshtml", new LoginViewModel());
     }
