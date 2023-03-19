@@ -10,7 +10,6 @@ services:
     working_dir: /StoreProject/Store
     depends_on:
       - "db"
-      - "identity_db"
     container_name: store-container
     ports:
       - "5000:5000"
@@ -18,8 +17,7 @@ services:
       context: .
       dockerfile: Dockerfile
     environment: 
-      - ConnectionStrings__myStore=User ID=postgres;Password=postgres;Host=db;Database=myaspdb;Port=5432;
-      - ConnectionStrings__identityUser=User ID=postgres;Password=postgres;Host=identity_db;Database=myidentity;Port=5432;
+      - ConnectionStrings__Store=User ID=postgres;Password=postgres;Host=db;Database=myaspdb;Port=5432;
     networks:
       - net
   db:
@@ -36,20 +34,5 @@ services:
     networks:
       - net 
       
-  identity_db:
-    image: postgres:15.2
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=myidentity
-    ports:
-      - 5434:5432
-    restart: always
-    volumes:
-      - identity_data:/var/lib/postgres/identity
-    networks:
-      - net 
-
 volumes:
-  app_data:
-  identity_data: 
+  app_data: 
