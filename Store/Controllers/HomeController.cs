@@ -16,7 +16,6 @@ public class HomeController : Controller
     {
         repository = rep;
         imageRepository = img;
-
     }
 
     [Route("/"), Route("/Home")]
@@ -88,4 +87,3 @@ public class HomeController : Controller
         return RedirectToAction(nameof(Index));
     }
 }
-
