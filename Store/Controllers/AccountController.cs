@@ -90,40 +90,43 @@ public class AccountController : Controller
     [ValidateAntiForgeryToken]
     public async Task <IActionResult> UserRegistration(RegistrationViewModel regVM)
     {
-        StoreUser? user = await userManager.FindByNameAsync(regVM?.Name);
-
-        if(user != null)
-           ModelState.AddModelError("Name", "Пользователем с таким именем занят");
-
-        user = await userManager.FindByEmailAsync(regVM?.Email);
-
-        if(user != null)
-           ModelState.AddModelError("Email", "Данная электронная почта занята");
-        
-        if(regVM.Password != regVM.passwordConfirm )
-           ModelState.AddModelError("passwordConfirm", "Пароли не совпадают");
-            
-        if(ModelState.IsValid)
+        if (regVM.Name !=null && regVM.Password !=null)
         {
-            user = new StoreUser(regVM.Name);
-            user.Email = regVM.Email;
+            StoreUser? user = await userManager.FindByNameAsync(regVM?.Name);
 
-            var resultCreate = await userManager.CreateAsync(user, regVM.Password);
+            if(user != null)
+               ModelState.AddModelError("Name", "Пользователем с таким именем занят");
+            
+            user = await userManager.FindByEmailAsync(regVM?.Email);
+            
+            if(user != null)
+               ModelState.AddModelError("Email", "Данная электронная почта занята");
 
-            if (resultCreate.Succeeded)
+            if(regVM.Password != regVM.passwordConfirm )
+               ModelState.AddModelError("passwordConfirm", "Пароли не совпадают");
+
+            if(ModelState.IsValid)
             {
-               await userManager.AddToRoleAsync(user, Role.Basic.ToString());
+                user = new StoreUser(regVM.Name);
+                user.Email = regVM.Email;
 
-               var resultSignIn =  await signInManager.PasswordSignInAsync(user, regVM.Password, false, false);
+                var resultCreate = await userManager.CreateAsync(user, regVM.Password);
 
-               if(resultSignIn.Succeeded)
-                  return Redirect ("/Home");
+                if(resultCreate.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(user, Role.Basic.ToString());
+
+                    var resultSignIn =  await signInManager.PasswordSignInAsync(user, regVM.Password, false, false);
+
+                    if(resultSignIn.Succeeded)
+                       return Redirect ("/Home");
+                }
+                else
+                   ModelState.AddModelError
+                   ("Password", "Пароль должен содержать заглваные буквы и специальные символы (#, *, ~ и т.д.)");
             }
-            else
-               ModelState.AddModelError
-               ("Password", "Пароль должен содержать заглваные буквы и специальные символы (#, *, ~ и т.д.)") ;
         }
-
+        
         return View("~/Views/Account/Registr.cshtml", regVM);
     }
 }
