@@ -2,18 +2,19 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Store.Data;
+using Store.Models;
 using Store.Models.ViewModels;
 
 namespace Store.Controllers;
 
 public class AccountController : Controller
 {
-    private UserManager<IdentityUser> userManager;
-    private SignInManager<IdentityUser> signInManager;
+    private UserManager<StoreUser> userManager;
+    private SignInManager<StoreUser> signInManager;
     private RoleManager<IdentityRole> roleManager;
 
-    public AccountController( UserManager<IdentityUser> userMgr,
-                              SignInManager<IdentityUser> signInMgr,
+    public AccountController( UserManager<StoreUser> userMgr,
+                              SignInManager<StoreUser> signInMgr,
                               RoleManager<IdentityRole> roleMgr
                             )
     {
@@ -37,12 +38,12 @@ public class AccountController : Controller
     {
         if (loginVM?.Login!=null && loginVM?.Password!=null)
         {
-            IdentityUser? user =  await userManager.FindByNameAsync(loginVM?.Login);
+            StoreUser? user =  await userManager.FindByNameAsync(loginVM?.Login);
             
-            if(user==null) 
+            if(user == null) 
             user =  await userManager.FindByEmailAsync(loginVM?.Login);
 
-            if(user!=null)
+            if(user != null)
             {                
                 await signInManager.SignOutAsync();
                 
@@ -89,7 +90,7 @@ public class AccountController : Controller
     [ValidateAntiForgeryToken]
     public async Task <IActionResult> UserRegistration(RegistrationViewModel regVM)
     {
-        IdentityUser? user = await userManager.FindByNameAsync(regVM?.Name);
+        StoreUser? user = await userManager.FindByNameAsync(regVM?.Name);
 
         if(user != null)
            ModelState.AddModelError("Name", "Пользователем с таким именем занят");
@@ -104,7 +105,7 @@ public class AccountController : Controller
             
         if(ModelState.IsValid)
         {
-            user = new IdentityUser(regVM.Name);
+            user = new StoreUser(regVM.Name);
             user.Email = regVM.Email;
 
             var resultCreate = await userManager.CreateAsync(user, regVM.Password);
