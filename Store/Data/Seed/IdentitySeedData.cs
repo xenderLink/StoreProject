@@ -35,7 +35,6 @@ public static class IdentitySeedData
                                                    .CreateScope()
                                                    .ServiceProvider
                                                    .GetRequiredService<RoleManager<IdentityRole>>();
-
         
         if(context.Database.GetPendingMigrations().Any()) 
                    context.Database.Migrate();
