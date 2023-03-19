@@ -27,7 +27,7 @@ public class CatalogController : Controller
         return View (new CatalogViewModel()
         {
             Categories = categoriesRepository.Categories,
-            subCategories = await categoriesRepository.SubCategories.ToListAsync()       
+            SubCategories = await categoriesRepository.SubCategories.ToListAsync()       
         });
     }
     
