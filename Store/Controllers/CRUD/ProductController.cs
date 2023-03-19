@@ -23,7 +23,7 @@ public class ProductController : Controller
 
         repository = rep;
 
-        var asSpan = CollectionsMarshal.AsSpan(catRep.Childs.ToList());
+        var asSpan = CollectionsMarshal.AsSpan(catRep.SubCategories.ToList());
 
         foreach (var item in asSpan)
         {
@@ -32,24 +32,24 @@ public class ProductController : Controller
         }
 
     }
-    public async Task <IActionResult> Index (int productPage = 1)
-    {   
 
+    public async Task <IActionResult> Index (int productPage = 1)
+    {
         ProductsViewModel VM = new ProductsViewModel()
         {
-             Products = await repository.Products
+            Products = await repository.Products
                         .Skip( (productPage-1) * PageSize)
                         .Take(PageSize)
                         .OrderBy(i=>i.productId).ToListAsync(),
             
             Categories = categoriesForIndex,
 
-             PagingInfo = new PagingInfo
-             {
+            PagingInfo = new PagingInfo
+            {
                 TotalProducts = await repository.Products.CountAsync(),
                 CurrentPage =  productPage,
                 ProductsPerPage = PageSize
-             }
+            }
         };
 
         return View("~/Views/Crud/Products/Index.cshtml", VM);
@@ -69,12 +69,13 @@ public class ProductController : Controller
         ViewBag.Categories = categoriesForDropDown;   
 
         if (product.productDescription == null)
-        product.productDescription = null;
-        
+        {
+            product.productDescription = null;
+        }
         else
         {
             if (product.productDescription.isJson() != true)
-            ModelState.AddModelError("productDescription", "Неверный формат JSON");
+                ModelState.AddModelError("productDescription", "Неверный формат JSON");
         }
 
         if (ModelState.IsValid)
@@ -89,35 +90,34 @@ public class ProductController : Controller
     [HttpGet("/admin/products/edit/{id}")]
     public async Task <IActionResult> Edit(long? id)
     {
-        if ( id==null || id ==0)
-        return NotFound();
+        if(id == null || id == 0)
+           return NotFound();
 
         var product  = await repository.Products.FirstOrDefaultAsync(p=>p.productId==id);
 
-        if ( product == null)
-        return NotFound();
+        if(product == null)
+           return NotFound();
 
         ViewBag.Categories = categoriesForDropDown;   
 
         return View ("~/Views/Crud/Products/Edit.cshtml", product);
-
     }
 
     [HttpPost("/admin/products/edit/{id}"), ActionName("Edit")]
     [ValidateAntiForgeryToken]
     public async Task <IActionResult> EditPOST(long id, Product productData)
     {
-    
         var product  = await repository.Products.FirstOrDefaultAsync(p=>p.productId==id);
 
         if (product == null)
-        return NotFound();
+           return NotFound();
 
         ViewBag.Categories = categoriesForDropDown;   
 
         if (productData.productDescription == null)
-        product.productDescription = null;
-        
+        {
+            product.productDescription = null;
+        }
         else
         {
             if (productData.productDescription.isJson() != true)
@@ -142,13 +142,13 @@ public class ProductController : Controller
     [HttpGet("/admin/products/delete/{id}")]
     public IActionResult Delete(long? id)
     {
-        if( id==null || id==0)
-        return NotFound();
+        if(id==null || id==0)
+           return NotFound();
 
         var product = repository.Products.FirstOrDefault(p=>p.productId==id);
 
-        if( product == null)
-        return NotFound();
+        if(product == null)
+           return NotFound();
 
         return View("~/Views/Crud/Products/Delete.cshtml", product);
     }
@@ -159,12 +159,11 @@ public class ProductController : Controller
     {
         var product  = await repository.Products.FirstOrDefaultAsync(p=>p.productId==id);
 
-        if( product == null)
-        return NotFound();
+        if(product == null)
+           return NotFound();
 
         await repository.DeleteProductAsync(product);
 
         return RedirectToAction(nameof(Index));
     }
 }
-
