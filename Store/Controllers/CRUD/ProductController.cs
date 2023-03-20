@@ -7,8 +7,6 @@ using Store.Infrasctructure;
 using Store.Models;
 using Store.Models.ViewModels;
 
-namespace Store.Controllers;
-
 [Route("/admin"), Route("/admin/products")]
 [Authorize(Roles = "Admin")]
 public class ProductController : Controller
