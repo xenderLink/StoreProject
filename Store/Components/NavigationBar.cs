@@ -1,4 +1,3 @@
-using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Store.Models;
@@ -9,8 +8,7 @@ namespace Store.Components;
 public class NavigationBar : ViewComponent
 {
     private Cart cart; 
-    public NavigationBar (Cart cartService) =>
-    cart = cartService;
+    public NavigationBar (Cart cartService) => cart = cartService;
 
     public async Task<IViewComponentResult> InvokeAsync()
     {
@@ -19,20 +17,19 @@ public class NavigationBar : ViewComponent
     }
     private IViewComponentResult Invoke()
     {
-        NavCartViewModel? cartModel;
+        NavCartViewModel cartModel;
 
-        if (cart?.Lines?.Count == 0)
-        cartModel = new();
-
+        if(cart?.Lines?.Count == 0)
+        {
+            cartModel = new();
+        }
         else
         {
             cartModel = new ()
             {
                 NumberOfProducts = cart.Lines.Sum(s =>s.Quantity),
                 TotalAmount = cart.Sum()
-            };
-            var t = cartModel.GetType();
-            var b = t.IsValueType; 
+            }; 
         }
 
         return View (cartModel);

@@ -7,8 +7,7 @@ public class CategoriesNavigation : ViewComponent
 {
     private ICategoriesRepository repository;
 
-    public CategoriesNavigation (ICategoriesRepository rep) =>
-    repository = rep;
+    public CategoriesNavigation (ICategoriesRepository rep) => repository = rep;
 
     public IViewComponentResult Invoke()
     {
@@ -16,10 +15,9 @@ public class CategoriesNavigation : ViewComponent
         ViewBag.SelectedController = RouteData?.Values["controller"];
         ViewBag.Error = RouteData?.Values["action"];
 
-        return View ( repository.Categories
-                      .Select(c => c.name)
-                      .Distinct()
-                      .OrderBy(c=>c)
-                    );
+        return View (repository.Categories
+                     .Select(c => c.name)
+                     .Distinct()
+                     .OrderBy(c=>c) );
     }
 }

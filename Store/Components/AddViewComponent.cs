@@ -9,8 +9,7 @@ public class AddToCart : ViewComponent
     private Cart cart;
     private long? productId;
 
-    public AddToCart(Cart cartService) =>
-    cart = cartService;
+    public AddToCart(Cart cartService) => cart = cartService;
     
     public async Task<IViewComponentResult> InvokeAsync(long? id)
     {
