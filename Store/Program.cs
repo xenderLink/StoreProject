@@ -6,6 +6,7 @@ using Store.Data;
 using Store.Models;
 
 namespace Store;
+
 public class Program
 {
     public static async Task Main(string[] args)
