@@ -6,6 +6,5 @@ namespace Store.Models
         public Task CreateProductAsync (Product p);
         public Task UpdateProductAsync (Product p);
         public Task DeleteProductAsync (Product p);
-
     }
 }
