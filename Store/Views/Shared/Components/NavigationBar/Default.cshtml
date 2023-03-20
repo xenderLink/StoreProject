@@ -13,12 +13,12 @@
         }
         else
         {
-            <a class="navbar-brand text-dark  asp-controller="Account" asp-action="Logout">
+            <a class="navbar-brand text-dark"  asp-controller="Account" asp-action="Logout">
                 <span style="font-size:1.4rem;">@User?.Identity?.Name&nbsp;</span>
                 <i class="bi bi-box-arrow-right"></i>&nbsp;&nbsp;</a>
         }<a class="navbar-brand text-dark" asp-controller="Cart" asp-action="Index"><i class="bi bi-cart4"></i></a><br>
         
-        @if(Model.NumberOfProducts !=0 )
+        @if(Model.NumberOfProducts !=0)
          {
             <span><b>Ваша корзина:&nbsp;</b>Количество: @Model.NumberOfProducts&nbsp;, Сумма: @Model.TotalAmount.ToString("c0", new CultureInfo("ru-RU"))</span>
          }
