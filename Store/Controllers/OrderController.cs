@@ -18,8 +18,10 @@ public class OrderController : Controller
     }
 
     [HttpGet]
-    public ViewResult Checkout()
+    public IActionResult Checkout()
     {
+        if(User?.Identity?.IsAuthenticated == true && !User.IsInRole("Basic") )
+           return Redirect("/");
         
         return View(new Order());
     } 
@@ -30,11 +32,9 @@ public class OrderController : Controller
     {
         
         if(cart.Lines.Count()==0)
-        {
-            ModelState.AddModelError("Cart", "В корзине нет товаров!");
-        }
-
-        if( order.number?.Length != 0)
+           ModelState.AddModelError("Cart", "В корзине нет товаров!");
+        
+        if(order.number?.Length != 0)
         {
             string errorNumber = "Номер должен быть в формате: +7(9**)(***)-(**)-(**) или 8(9**)(***)-(**)-(**)";
 
@@ -43,16 +43,14 @@ public class OrderController : Controller
                 case 12 :
                 {
                     if(!Regex.IsMatch(order.number, @"(\+)(7)(9)[0-9]+"))
-                    ModelState.AddModelError("number", errorNumber);
-                    
+                       ModelState.AddModelError("number", errorNumber);
                     break;
                 }
                 
                 case 11 :
                 {
                     if(!Regex.IsMatch(order.number, @"(8)(9)[0-9]+"))
-                    ModelState.AddModelError("number", errorNumber);
-                    
+                       ModelState.AddModelError("number", errorNumber);
                     break;
                 }
             }
@@ -69,9 +67,8 @@ public class OrderController : Controller
         return View();
     }
 
-    public IActionResult Completed(long OrderId)
+    public ViewResult Completed(long OrderId)
     {
         return View(new Order{OrderId = OrderId});
     }
-
 }

@@ -36,7 +36,7 @@ public class AccountController : Controller
     [ValidateAntiForgeryToken]
     public async Task <IActionResult> Login(LoginViewModel loginVM)
     {
-        if (loginVM?.Login!=null && loginVM?.Password!=null)
+        if(loginVM?.Login!=null && loginVM?.Password!=null)
         {
             StoreUser? user =  await userManager.FindByNameAsync(loginVM?.Login);
             
@@ -73,11 +73,11 @@ public class AccountController : Controller
     }
 
     [Route("/Logout")]
-    public async Task <IActionResult> Logout ()
+    public async Task <IActionResult> Logout()
     {
         await signInManager.SignOutAsync();
 
-        return RedirectToAction(nameof(Login));
+        return Redirect("/Login");
     }
 
     [HttpGet("/Registrastion"),]
