@@ -7,10 +7,9 @@ public class EFProductsRepository : IProductsRepository
 {
     private StoreDbContext context;
 
-    public EFProductsRepository(StoreDbContext ctx) =>
-    context = ctx;
-    public IQueryable <Product> Products => 
-    context.products;
+    public EFProductsRepository(StoreDbContext ctx) => context = ctx;
+
+    public IQueryable <Product> Products => context.products;
 
     public async Task CreateProductAsync (Product p)
     {
@@ -23,10 +22,10 @@ public class EFProductsRepository : IProductsRepository
         context.products.Update(p);
         await context.SaveChangesAsync();
     }
+    
     public async Task DeleteProductAsync (Product p)
     {
         context.products.Remove(p);
         await context.SaveChangesAsync();               
     }
-    
 }
