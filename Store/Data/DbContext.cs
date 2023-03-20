@@ -15,8 +15,8 @@ public class StoreDbContext : IdentityDbContext<StoreUser>
     public DbSet<Product> products {get;set;}
     public DbSet<Order> orders {get;set;}
     public DbSet<Image> images {get;set;}
-    public DbSet<ProductImage> product_images{get;set;}
-    public DbSet<StoreUser> users{get;set;}
+    public DbSet<ProductImage> product_images {get;set;}
+    public DbSet<StoreUser> users {get;set;}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
