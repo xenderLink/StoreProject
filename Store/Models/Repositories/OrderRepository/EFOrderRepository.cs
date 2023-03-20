@@ -14,6 +14,8 @@ public class EFOrderRepository : IOrderRepository
     .Include(c=>c.Cart)
     .ThenInclude(p=>p.Product);
 
+    public IQueryable<StoreUser> Users => context.users;
+
     public async Task SaveOrderAsync(Order order)
     {
         context.AttachRange(order.Cart.Select(p=>p.Product));

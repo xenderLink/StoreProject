@@ -12,8 +12,8 @@ using Store.Data;
 namespace Store.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20230320162447_Database")]
-    partial class Database
+    [Migration("20230320171618_DataBase")]
+    partial class DataBase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

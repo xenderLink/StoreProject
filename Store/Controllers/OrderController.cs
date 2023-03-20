@@ -59,6 +59,12 @@ public class OrderController : Controller
         if(ModelState.IsValid)
         {
             order.Cart = cart.Lines;
+
+            if(User?.Identity?.IsAuthenticated == true)
+            {
+                order.userId = await repository.Users.Where(u=>u.UserName==User.Identity.Name).Select(i=>i.Id).FirstOrDefaultAsync();
+            }
+
             await repository.SaveOrderAsync(order);
             cart.Clear();
             return RedirectToAction("Completed", new {OrderId = order.OrderId});
