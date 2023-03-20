@@ -64,8 +64,9 @@ public class OrderController : Controller
             return RedirectToAction("Completed", new {OrderId = order.OrderId});
         }
 
-        return View();
+        return View(new Order());
     }
+
 
     public ViewResult Completed(long OrderId)
     {

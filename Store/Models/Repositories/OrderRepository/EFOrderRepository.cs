@@ -7,11 +7,8 @@ public class EFOrderRepository : IOrderRepository
 {
     private StoreDbContext context;
 
-    public EFOrderRepository(StoreDbContext ctx)
-    {
-        context = ctx;
-    }
-
+    public EFOrderRepository(StoreDbContext ctx) => context = ctx;
+    
     public IQueryable<Order> Orders => 
     context.orders
     .Include(c=>c.Cart)
@@ -22,9 +19,7 @@ public class EFOrderRepository : IOrderRepository
         context.AttachRange(order.Cart.Select(p=>p.Product));
 
         if(order.OrderId == 0)
-        {
-            await context.AddAsync(order);
-        }
+           await context.orders.AddAsync(order);
 
         await context.SaveChangesAsync();
     }
