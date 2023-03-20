@@ -13,10 +13,9 @@ public class AccountController : Controller
     private SignInManager<StoreUser> signInManager;
     private RoleManager<IdentityRole> roleManager;
 
-    public AccountController( UserManager<StoreUser> userMgr,
-                              SignInManager<StoreUser> signInMgr,
-                              RoleManager<IdentityRole> roleMgr
-                            )
+    public AccountController(UserManager<StoreUser> userMgr,
+                             SignInManager<StoreUser> signInMgr,
+                             RoleManager<IdentityRole> roleMgr)
     {
         userManager = userMgr;
         signInManager = signInMgr;
