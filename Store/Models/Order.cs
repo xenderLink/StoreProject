@@ -11,7 +11,7 @@ public class Order
     public long OrderId {get;set;}
 
     [Column("user_id")]
-    public string userId {get;set;}
+    public string? userId {get;set;}
     public StoreUser? User {get;set;}
     
     [BindNever]
@@ -27,11 +27,12 @@ public class Order
 
     [Display(Name = "Номер")]
     [Required(ErrorMessage = "Введите номер")]
-    [StringLength(12, MinimumLength = 11, ErrorMessage = "Номер должен быть из 11 или 12 символов")]
+    [StringLength(12, MinimumLength = 11, 
+    ErrorMessage = "Номер должен быть из 11 или 12 символов")]
     public string? number {get;set;}
 
     [Display(Name = "Город")]
-    [Required(ErrorMessage = "Введите город"), MaxLength]
+    [Required(ErrorMessage = "Введите город")]
     public string? city {get;set;}
 
     [Required(ErrorMessage= "Введите адрес")]

@@ -15,6 +15,7 @@ public class NavigationBar : ViewComponent
         var result = await Task.Run( ()=>Invoke() );
         return result;
     }
+    
     private IViewComponentResult Invoke()
     {
         NavCartViewModel cartModel;

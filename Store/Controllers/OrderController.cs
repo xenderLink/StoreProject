@@ -31,7 +31,7 @@ public class OrderController : Controller
     public async Task<IActionResult> Checkout(Order order)
     {
         
-        if(cart.Lines.Count()==0)
+        if(cart.Lines.Count() == 0)
            ModelState.AddModelError("Cart", "В корзине нет товаров!");
         
         if(order.number?.Length != 0)
