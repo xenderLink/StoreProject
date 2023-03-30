@@ -1,9 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+
 using Store.Models;
 using Store.Models.ViewModels;
-
-namespace Store.Components;
 
 public class NavigationBar : ViewComponent
 {
