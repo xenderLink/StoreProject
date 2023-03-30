@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+
 using Store.Models;
 using Store.Models.ViewModels;
 
@@ -38,7 +39,7 @@ public class HomeController : Controller
             if(product.productDescription != null)
             description = Regex.Replace ( JsonSerializer
                                           .Deserialize<dynamic>(product.productDescription)
-                                          .ToString(),  @"[^\w \- :,]", "" );
+                                          .ToString(),  @"[^\w \- :,.]", "" );
 
             if(query != null)
             {
