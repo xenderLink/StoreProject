@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
+
 using Store.Models;
 using Store.Models.ViewModels;
 
 namespace Store.Controllers;
+
 public class CartController : Controller
 {
     private IProductsRepository repository;
@@ -58,12 +60,11 @@ public class CartController : Controller
         return RedirectToAction("Index");
     
     }
+    
     public IActionResult Clear()
     {
         cart.Clear();
 
         return Redirect(Request.Headers["Referer"].ToString());
     }
-
-  
 }
