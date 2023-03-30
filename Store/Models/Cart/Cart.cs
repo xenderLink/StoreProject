@@ -31,14 +31,12 @@ public class Cart
             line.Quantity-=1;
         }
     }
-    public virtual void RemoveAll(long productId) =>
-    Lines.RemoveAll(p=>p.Product?.productId==productId);
     
-    public virtual decimal Sum() =>
-    Lines.Sum(p=>Convert.ToDecimal(p?.Product?.price*p?.Quantity)); //Цена*на количество продуктов
+    public virtual void RemoveAll(long productId) => Lines.RemoveAll(p=>p.Product?.productId==productId);
+    
+    public virtual decimal Sum() => Lines.Sum(p=>Convert.ToDecimal(p?.Product?.price*p?.Quantity)); //Цена*на количество продуктов
 
-    public virtual void Clear() => 
-    Lines.Clear();
+    public virtual void Clear() => Lines.Clear();
 }
 
 [Table("cartline")]
