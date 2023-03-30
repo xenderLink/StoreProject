@@ -1,10 +1,11 @@
 namespace Store.Models.ViewModels;
+
 public class ProductListViewModel
 {
     public IEnumerable<ProductListItem> Products {get; set;} = Enumerable.Empty<ProductListItem>();
-
     public PagingInfo PagingInfo {get;set;} = new ();
 }
+
 public class ProductListItem
 {
     public long productId {get;set;}
