@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Store.Models;
 
-namespace Store.Components;
+using Store.Models;
 
 public class CategoriesNavigation : ViewComponent
 {
