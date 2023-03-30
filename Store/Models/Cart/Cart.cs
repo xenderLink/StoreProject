@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-
 namespace Store.Models;
 
 public class Cart 
@@ -41,7 +40,6 @@ public class Cart
     public virtual void Clear() => 
     Lines.Clear();
 }
-
 
 [Table("cartline")]
 public class CartLine
